@@ -1,0 +1,13 @@
+{
+  "name": "aurelia21",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test --config=tests/playwright.config.js",
+    "test:headed": "playwright test --config=tests/playwright.config.js --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@axe-core/playwright": "^4.10.2"
+  }
+}
