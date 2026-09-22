@@ -3,7 +3,6 @@
   --bg-soft:#0d0b08;
   --panel:rgba(255,255,255,.035);
   --ink:#f3ecdf;
-  --muted:#c8bda8;
   --gold:#f6ca5b;
   --gold-deep:#b7852f;
   --line:rgba(246,202,91,.2);
@@ -46,4 +45,32 @@
   --dur-lg: .45s;
   --dur-xl: .8s;
   --dur-2xl: .9s;
+}
+/* —— line-height tokens (T12): 3 tiers grouped by role, not raw proximity ——
+   Source values before tokenization: hero h1 0.82, content h2 0.92 (display
+   headlines); blockquote 1.05, .highlight 1.1, hero-quote 1.2 (italic/quote/
+   emphasis text); gate-copy 1.45, secret-message p 1.42, content p 1.5 (body
+   paragraphs). record p (1.28, components.css) is a genuine one-off tuned to
+   its 210px-min-height card and is intentionally left as a literal — it sits
+   between the quote-snug and body tiers with no clean sibling. */
+:root {
+  --lh-display-tight: 0.9;
+  --lh-quote-snug: 1.15;
+  --lh-body: 1.5;
+}
+/* —— muted-text tokens (T12): replaces the previously-unused --muted.
+   Exactly 2 semantic tiers, each value chosen so every consolidated usage's
+   real contrast ratio (verified against its actual rendered background, not
+   assumed) stays at or above its prior ratio -- see contrast.spec.js and the
+   T12 evidence in odd/tasks/aurelia21-professional-redesign.md for the
+   per-usage before/after numbers. Some near-duplicate grays were kept as
+   literals rather than forced into these tokens; each has an inline comment
+   at its usage site explaining why. */
+:root {
+  --muted-strong: rgb(188, 168, 121); /* ~7.8:1 vs gate gradient's lightest stop */
+  --muted-soft: rgb(160, 147, 125); /* >=5:1 vs every consolidated usage's real worst-case bg */
+}
+/* —— card padding token (T12) —— */
+:root {
+  --sp-card: 1.35rem; /* shared by .spec-card (was 1.4rem) and .record (was 1.3rem) -- close enough (0.05rem/0.8px each way) that unifying them doesn't change either card's proportions visibly. .monogram's 2rem/1rem is a genuinely different, asymmetric shape (vertical-heavy divider, not a card) and is left as a literal. */
 }

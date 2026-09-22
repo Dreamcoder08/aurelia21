@@ -46,7 +46,7 @@
 }
 .hero h1 {
   font-size: var(--fs-h1-hero);
-  line-height: 0.82;
+  line-height: var(--lh-display-tight);
 }
 .hero h1 span {
   font-size: 0.31em;
@@ -56,7 +56,7 @@
   font-family: var(--font-display);
   font-size: var(--fs-sub);
   font-style: italic;
-  line-height: 1.2;
+  line-height: var(--lh-quote-snug);
   margin: 0 0 1.8rem;
 }
 .scroll-indicator {
@@ -154,6 +154,9 @@
 }
 .monogram {
   min-width: 260px;
+  /* Not tokenized into --sp-card: asymmetric vertical-heavy padding for a
+     letter-mark divider, structurally different from the .spec-card/.record
+     uniform card padding -- forcing it to match would change its shape. */
   padding: 2rem 1rem;
   text-align: center;
   border-top: 1px solid var(--line);
@@ -176,7 +179,7 @@
 .monogram small {
   display: block;
   margin-top: 1rem;
-  color: rgb(151, 139, 118);
+  color: var(--muted-soft);
   font-size: 0.62rem;
 }
 .archive {
@@ -223,7 +226,7 @@
 }
 .endmark small {
   font-size: 0.52rem;
-  color: rgb(133, 120, 101);
+  color: var(--muted-soft);
 }
 @media (max-width: 900px) {
   .hero-copy {
@@ -280,7 +283,17 @@
   content: "00 / FIRST LIGHT";
   display: block;
   margin-bottom: 1.25rem;
-  color: rgb(142, 128, 104);
+  /* Generated content over the hero JPEG: axe never evaluates it, and its
+     worst-case background is a mid-brown photo tone (measured post-overlay
+     via screenshot + canvas sampling, contrast.spec.js), not the near-black
+     the page's other muted text sits on. The original rgb(142,128,104)
+     cleared only ~2.9-3.8:1. Anything in the --muted-soft family is still
+     too dark against a lit photo patch, so this is deliberately its own
+     literal: light enough to clear AA against the brightest sampled patch
+     (~5.5:1), still visibly dimmer than --ink so the label stays subordinate
+     to the h1. Changing the hero photo may invalidate this — the spec
+     re-measures it per viewport rather than trusting a fixed number. */
+  color: rgb(222, 214, 198);
   font: 500 0.57rem var(--font-body);
   letter-spacing: 0.22em;
 }

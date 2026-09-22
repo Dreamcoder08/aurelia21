@@ -266,3 +266,103 @@ test('.endmark small clears AA contrast against its solid final-section backgrou
   console.log('[contrast] .endmark small', JSON.stringify(result));
   expect(result.ratio).toBeGreaterThanOrEqual(result.required);
 });
+
+// T12 found this one failing (~3.4:1 on mobile) and fixed it. Same blind spot
+// as .hero::before above: generated content over a real photo, so axe never
+// evaluates it. Geometry is simpler here — the pseudo-element is display:block
+// at the top of .hero-copy's content box, so its patch is the strip from that
+// box's top-left, sized by a hidden span sharing its font.
+test('.hero-copy::before clears AA contrast against the hero photo behind it', async ({ page }) => {
+  await page.goto('/');
+  await page.addScriptTag({ content: CONTRAST_HELPERS });
+  await page.locator('#enter-button').click();
+  await page.evaluate(async () => {
+    const step = innerHeight * 0.8;
+    for (let y = 0; y < document.body.scrollHeight; y += step) {
+      scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 60));
+    }
+    scrollTo(0, 0);
+  });
+  await page.waitForTimeout(300);
+  await page.evaluate(() => document.fonts.ready);
+
+  const metrics = await page.evaluate(() => {
+    const copy = document.querySelector('.hero-copy');
+    const cs = getComputedStyle(copy, '::before');
+    const span = document.createElement('span');
+    span.style.position = 'fixed';
+    span.style.top = '-9999px';
+    span.style.left = '-9999px';
+    span.style.whiteSpace = 'pre';
+    span.style.font = cs.font;
+    span.style.letterSpacing = cs.letterSpacing;
+    span.textContent = cs.content.replace(/^"|"$/g, '');
+    document.body.appendChild(span);
+    const rect = span.getBoundingClientRect();
+    span.remove();
+    const copyRect = copy.getBoundingClientRect();
+    return {
+      color: cs.color,
+      textWidth: rect.width,
+      textHeight: rect.height,
+      left: copyRect.left + parseFloat(getComputedStyle(copy).paddingLeft || 0),
+      top: copyRect.top,
+    };
+  });
+
+  const clip = {
+    x: Math.max(0, Math.round(metrics.left)),
+    y: Math.max(0, Math.round(metrics.top)),
+    width: Math.max(1, Math.ceil(metrics.textWidth)),
+    height: Math.max(1, Math.ceil(metrics.textHeight)),
+  };
+
+  const styleHandle = await page.addStyleTag({
+    content: '.hero-copy::before { color: transparent !important; }',
+  });
+  const bgBuffer = await page.screenshot({ clip });
+  await styleHandle.evaluate((el) => el.remove());
+
+  const dataUrl = `data:image/png;base64,${bgBuffer.toString('base64')}`;
+  const worstCaseBg = await page.evaluate(async (src) => {
+    const img = new Image();
+    img.src = src;
+    await img.decode();
+    const canvas = document.createElement('canvas');
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    const { data } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    let best = { r: 0, g: 0, b: 0 };
+    let bestL = -1;
+    for (let i = 0; i < data.length; i += 4) {
+      const l = window.__contrast.relLuminance([data[i], data[i + 1], data[i + 2]]);
+      if (l > bestL) {
+        bestL = l;
+        best = { r: data[i], g: data[i + 1], b: data[i + 2] };
+      }
+    }
+    return best;
+  }, dataUrl);
+
+  const result = await page.evaluate(
+    ({ colorStr, bg }) => {
+      const fg = window.__contrast.parseColor(colorStr);
+      const blended = window.__contrast.blendOver(fg, bg);
+      return {
+        ratio: window.__contrast.contrastRatio(
+          [blended.r, blended.g, blended.b],
+          [bg.r, bg.g, bg.b]
+        ),
+        fg,
+        bg,
+      };
+    },
+    { colorStr: metrics.color, bg: worstCaseBg }
+  );
+
+  console.log('[contrast] .hero-copy::before', JSON.stringify({ ...result, clip }));
+  expect(result.ratio).toBeGreaterThanOrEqual(4.5);
+});

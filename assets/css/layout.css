@@ -25,12 +25,12 @@
 }
 .content h2 {
   font-size: var(--fs-h2);
-  line-height: 0.92;
+  line-height: var(--lh-display-tight);
 }
 .content p {
   font-family: var(--font-display);
   font-size: var(--fs-lead);
-  line-height: 1.5;
+  line-height: var(--lh-body);
   color: rgb(221, 211, 195);
 }
 .final {
@@ -69,10 +69,32 @@
 }
 .content p {
   max-width: 68ch;
+  /* Orphan/widow control, matching text-wrap:balance already used on
+     headlines above. No fallback declaration needed: browsers that don't
+     recognize "pretty" as a valid text-wrap value drop this whole
+     declaration during parsing and keep the browser default (initial
+     value "wrap"), which is exactly today's behavior -- there is no
+     other text-wrap rule on .content p for an unsupported browser to
+     fall back to. */
+  text-wrap: pretty;
 }
 @media (max-width: 900px) {
   .section {
-    padding: 7rem 1.25rem 6rem;
+    /* T12 mobile measure: horizontal padding narrowed 1.25rem -> 1rem.
+       Measured live at 390px (real body copy in .content.narrow, actual DOM
+       line-wrap counts): baseline ~35.7 chars/line, this gives ~36.6. The
+       >=42cpl target is NOT reachable via padding alone -- 0.3rem/4.8px
+       still only reaches ~39.4cpl, at the cost of a gutter too tight for
+       this page's spacing language. Measure is dominated by --fs-lead's
+       1.24rem floor, not the gutter, so closing the remaining gap is a
+       type-scale decision, deliberately left to the user.
+       padding-left/right are restated (not left to the shorthand) so the
+       safe-area insets from the base .section rule survive here -- the
+       shorthand alone would drop them on exactly the notched phones that
+       need them. */
+    padding: 7rem 1rem 6rem;
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
     min-height: 100svh;
   }
   .content h2 {

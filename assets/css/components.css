@@ -16,7 +16,7 @@
 }
 .gate-mark{font-size:2.25rem;color:var(--gold);text-shadow:0 0 24px rgba(var(--gold-rgb),.55);animation:pulse 2.8s ease-in-out infinite}
 .gate h1{font-size:var(--fs-h1-gate)}
-.gate-copy{font-family:var(--font-display);font-size:1.35rem;line-height:1.45;color:rgb(223,213,194)}
+.gate-copy{font-family:var(--font-display);font-size:1.35rem;line-height:var(--lh-body);color:rgb(223,213,194)}
 .button-primary,.button-secondary{
   display:inline-block;text-decoration:none;cursor:pointer;
   color:var(--ink);border-radius:999px;
@@ -33,7 +33,7 @@
   box-shadow:0 12px 40px rgba(var(--gold-rgb),.12);
 }
 .spec-card{
-  width:min(360px,100%);padding:1.4rem;border-radius:18px;
+  width:min(360px,100%);padding:var(--sp-card);border-radius:18px;
   background:var(--panel);backdrop-filter:blur(16px);
   border:1px solid var(--line);
 }
@@ -49,17 +49,25 @@
   gap:1rem;margin-top:2rem
 }
 .record{
-  min-height:210px;padding:1.3rem;border-radius:1.1rem;
+  min-height:210px;padding:var(--sp-card);border-radius:1.1rem;
   border:1px solid rgba(var(--gold-rgb),.13);
   background:linear-gradient(150deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
 }
 .record span{color:var(--gold);font-size:.72rem;letter-spacing:.2em}
+/* line-height 1.28 is a genuine one-off, not tokenized: tuned tight to fit
+   this card's longer copy within its 210px min-height; it sits between
+   --lh-quote-snug (1.15) and --lh-body (1.5) with no clean sibling. */
 .record p{font-family:var(--font-display);font-size:1.4rem;line-height:1.28;color:rgb(222,212,196)}
 .secret{justify-content:center;flex-direction:column;text-align:center;background:radial-gradient(circle at 50% 48%,rgba(var(--gold-rgb),.08),transparent 20rem),rgb(5,5,5)}
 .secret-trigger{
   background:transparent;border:0;color:var(--gold);cursor:pointer;display:grid;gap:.8rem;place-items:center
 }
 .secret-trigger span{font-size:5rem;text-shadow:0 0 28px rgba(var(--gold-rgb),.42);animation:pulse 2.6s ease-in-out infinite}
+/* rgb(163,148,122) intentionally left as a literal, not folded into
+   --muted-soft (160,147,125, nearly identical by coincidence): this exact
+   value is shared with .gate small below, which T10 already verified at
+   6.11:1 against the gate gradient -- left untouched to avoid re-churning a
+   just-verified fix. */
 .secret-trigger small{color:rgb(163,148,122)}
 .secret-message{
   max-height:0;overflow:hidden;opacity:0;transition:max-height 1.2s ease,opacity var(--dur-2xl) ease,margin-top var(--dur-2xl) ease;
@@ -67,7 +75,7 @@
 }
 .secret-message.open{max-height:1000px;opacity:1;margin-top:2rem}
 .secret-message h2{font-family:var(--font-display);font-size:clamp(3rem,8vw,5.8rem);margin:.4rem 0}
-.secret-message p{font-family:var(--font-display);font-size:1.45rem;line-height:1.42;color:rgb(221,209,192)}
+.secret-message p{font-family:var(--font-display);font-size:1.45rem;line-height:var(--lh-body);color:rgb(221,209,192)}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity var(--dur-2xl) ease,transform var(--dur-2xl) cubic-bezier(.2,.7,.2,1)}
 .reveal.visible{opacity:1;transform:none}
 @media (max-width: 900px){
@@ -108,6 +116,11 @@ body.experience-live .chapter-nav{transform:translate(0,-50%)}
 .chapter-nav a::before{
   content:attr(data-label);position:absolute;right:18px;top:50%;transform:translate(8px,-50%);
   opacity:0;white-space:nowrap;pointer-events:none;
+  /* rgb(217,202,170) left as a literal, not folded into --muted-strong
+     (188,168,121): measured at ~12.5:1, this is meaningfully brighter/
+     less saturated than the muted-family colors (near --ink territory) --
+     forcing it into --muted-strong would visibly dim this hover/focus
+     tooltip label for no accessibility benefit. */
   color:rgb(217,202,170);background:rgba(7,7,6,.82);border:1px solid rgba(var(--gold-rgb),.13);
   padding:.42rem .58rem;border-radius:7px;font:500 .58rem var(--font-body);letter-spacing:.14em;text-transform:uppercase;
   transition:var(--dur-sm) var(--ease-lux)
@@ -118,7 +131,7 @@ body.experience-live .chapter-nav{transform:translate(0,-50%)}
   left:var(--safe-x);bottom:max(1.1rem,env(safe-area-inset-bottom));transform:translateY(12px);
   display:flex;align-items:center;gap:.65rem;
   padding:.58rem .75rem;border-radius:999px;border:1px solid rgba(var(--gold-rgb),.13);
-  background:rgba(7,7,6,.5);backdrop-filter:blur(18px);color:rgb(155,141,118);
+  background:rgba(7,7,6,.5);backdrop-filter:blur(18px);color:var(--muted-soft);
   font:500 .58rem var(--font-body);letter-spacing:.14em;text-transform:uppercase
 }
 body.experience-live .timeline-chip{transform:none}
@@ -142,8 +155,13 @@ body.experience-live .timeline-chip{transform:none}
   width:72px;height:72px;margin:0 auto 1.2rem;display:grid;place-items:center;border-radius:50%;
   border:1px solid rgba(var(--gold-rgb),.24);background:radial-gradient(circle,rgba(var(--gold-rgb),.1),transparent 68%)
 }
-.gate .eyebrow{font-size:.6rem;color:rgb(188,168,121)}
+.gate .eyebrow{font-size:.6rem;color:var(--muted-strong)}
 .gate-copy{max-width:35rem;margin:1rem auto 1.6rem;color:rgb(207,195,174)}
+/* rgb(163,148,122): T10 already verified this exact value at 6.11:1 against
+   the gate gradient's lightest stop -- left as a literal (shared with
+   .secret-trigger small above) rather than re-mapped to --muted-soft
+   (160,147,125, nearly identical by coincidence) to avoid re-churning a
+   just-verified fix. */
 .gate small{display:block;margin-top:1.4rem;font-size:.55rem;color:rgb(163,148,122)}
 .button-primary,.button-secondary{position:relative;overflow:hidden}
 .button-primary::before,.button-secondary::before{
