@@ -11,7 +11,7 @@ export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
   webServer: {
-    command: "node serve.mjs",
+    command: "bun serve.mjs",
     port: 4173,
     reuseExistingServer: true,
   },

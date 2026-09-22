@@ -6,7 +6,7 @@ Live: **https://dreamcoder08.github.io/aurelia21/**
 
 ## Architecture
 
-**Zero build.** GitHub Pages serves `index.html` and `assets/` from the root of `main` exactly as committed — there is no compile, bundle, or transpile step in production. `npm install` and the dev server exist only to run the automated test suite.
+**Zero build.** GitHub Pages serves `index.html` and `assets/` from the root of `main` exactly as committed — there is no compile, bundle, or transpile step in production. `bun install` and the dev server exist only to run the automated test suite.
 
 ```
 index.html              # markup, plus a <noscript> fallback so content is readable without JS
@@ -36,17 +36,18 @@ docs/superpowers/specs/2026-09-21-aurelia21-professional-design.md   # design/be
 ## Dev setup
 
 ```bash
-npm install
-npx playwright install chromium
+bun install
+bunx playwright install chromium
 ```
 
 ## Running tests
 
-Tests spin up `tests/serve.mjs` (plain Node `http` server) and drive real Chromium via Playwright across four viewports (phone 390×844, tablet 768×1024, laptop 1280×800, desktop 1440×900).
+Tests spin up `tests/serve.mjs` (zero-dependency `node:http` server, run under Bun) and drive real Chromium via Playwright across four viewports (phone 390×844, tablet 768×1024, laptop 1280×800, desktop 1440×900).
 
 ```bash
-npm test          # headless, all specs × all viewports
-npm run test:headed
+bun run test            # headless, all specs × all viewports
+bun run test:headed
+bun run shots           # capture every section at every viewport -> ./shots
 ```
 
 Suites covered: smoke, image extraction/attributes, entry gate, chapter navigation, secret section, no-JS fallback, social/meta tags, responsive layout (touch targets, no horizontal scroll, safe-area, reduced motion), and accessibility (axe-core, zero serious/critical violations in both locked and unlocked states).
