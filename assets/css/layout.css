@@ -68,7 +68,12 @@
   text-wrap: balance;
 }
 .content p {
-  max-width: 68ch;
+  /* 58ch, not 68ch: the `ch` unit is the width of the "0" glyph, and in
+     Cormorant Garamond that is far wider than this copy's average character
+     -- 68ch measured out to 83 real characters per line on tablet, past the
+     readable ceiling. 58ch lands ~71. Only binds on tablet; phones are
+     capped by viewport width and laptop/desktop by --content (760px). */
+  max-width: 58ch;
   /* Orphan/widow control, matching text-wrap:balance already used on
      headlines above. No fallback declaration needed: browsers that don't
      recognize "pretty" as a valid text-wrap value drop this whole

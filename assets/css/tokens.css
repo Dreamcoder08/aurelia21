@@ -20,7 +20,11 @@
   --fs-h1-hero: clamp(4rem, 12vw, 8.7rem);
   --fs-h1-gate: clamp(3.3rem, 10vw, 6.8rem);
   --fs-h2: clamp(3rem, 8vw, 6rem);
-  --fs-lead: clamp(1.24rem, 2.6vw, 1.72rem);
+  /* Floor lowered 1.24rem -> 1.1rem for phone readability: the floor governs
+     only below ~677px viewport (above that the 2.6vw term wins), so this
+     affects phones alone. Measured effect at 390px: 41.7 -> ~47 chars/line,
+     into the 45-75 readable band. See tests/e2e/readability.spec.js. */
+  --fs-lead: clamp(1.1rem, 2.6vw, 1.72rem);
   --fs-sub: clamp(1.45rem, 4vw, 2.35rem);
 
   --sp-section-y: clamp(5rem, 10vw, 9rem);
