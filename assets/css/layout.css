@@ -3,6 +3,8 @@
   position: relative;
   min-height: 100svh;
   padding: var(--sp-section-y) var(--sp-section-x);
+  padding-left: max(var(--sp-section-x), env(safe-area-inset-left));
+  padding-right: max(var(--sp-section-x), env(safe-area-inset-right));
   display: flex;
   align-items: center;
   gap: var(--sp-gap);

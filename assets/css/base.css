@@ -51,7 +51,11 @@ body::before{
 }
 a,button{-webkit-tap-highlight-color:transparent}
 button:focus-visible,a:focus-visible{
-  outline:1px solid var(--gold);outline-offset:5px;box-shadow:0 0 0 8px rgba(var(--gold-rgb),.07)
+  box-shadow:0 0 0 8px rgba(var(--gold-rgb),.07)
+}
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
 }
 .skip-link{
   position:fixed;z-index:130;top:1rem;left:1rem;transform:translateY(-180%);
@@ -71,4 +75,12 @@ button:focus-visible,a:focus-visible{
   html{scroll-behavior:auto;scroll-snap-type:none}
   .hero-media,.ambient-halo,.chapter-nav,.timeline-chip{transition:none!important}
   .gate::before,.gate::after,.secret-trigger span{animation:none!important}
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
