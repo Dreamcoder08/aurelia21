@@ -38,12 +38,27 @@ export function initNav() {
   setProgress();
 
   if ('IntersectionObserver' in window) {
+    // IntersectionObserver callbacks only report entries whose ratio crossed a
+    // threshold SINCE THE LAST callback, not the current state of every observed
+    // section. Picking the top of just this batch races: near a scroll's resting
+    // position two adjacent sections can each cross a threshold in separate
+    // animation frames, and whichever fires LAST would otherwise "win" even if it
+    // is no longer the most visible one. Track every section's latest known ratio
+    // instead, and always choose the current global maximum.
+    const ratios = new Map();
     const chapterObserver = new IntersectionObserver(entries => {
-      const visible = entries
-        .filter(e => e.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (!visible) return;
-      const id = visible.target.id;
+      entries.forEach(entry => {
+        ratios.set(entry.target.id, entry.isIntersecting ? entry.intersectionRatio : 0);
+      });
+      let id = null;
+      let bestRatio = 0;
+      ratios.forEach((ratio, sectionId) => {
+        if (ratio > bestRatio) {
+          bestRatio = ratio;
+          id = sectionId;
+        }
+      });
+      if (!id) return;
       navLinks.forEach(link => {
         const active = link.dataset.section === id;
         link.classList.toggle('active', active);
