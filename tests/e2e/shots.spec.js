@@ -1,7 +1,7 @@
 import { test } from '@playwright/test';
 
 // Visual capture pass. Inert during normal runs; set SHOTS to a directory to
-// activate: `npm run shots` (see package.json). Exists because reviewing this
+// activate: `bun run shots` (see package.json). Exists because reviewing this
 // page by screenshot has already been needed repeatedly, and hand-rolling a
 // throwaway script each time loses the details that matter — waiting for
 // fonts, letting reveal animations settle, and capturing the same set of
@@ -9,7 +9,7 @@ import { test } from '@playwright/test';
 const OUT = process.env.SHOTS;
 
 test('capture page states', async ({ page }, info) => {
-  test.skip(!OUT, 'set SHOTS=<dir> to capture (npm run shots)');
+  test.skip(!OUT, 'set SHOTS=<dir> to capture (bun run shots)');
   test.setTimeout(120000);
   const v = info.project.name;
 
