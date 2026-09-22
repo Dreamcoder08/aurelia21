@@ -1,0 +1,79 @@
+/* Layout: section/content grid, spacing shells, and their layout media variants. */
+.section {
+  position: relative;
+  min-height: 100svh;
+  padding: var(--sp-section-y) var(--sp-section-x);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-gap);
+  overflow: hidden;
+}
+/* NOTE: .hero/.final sizing lives here (not sections.css) so the
+   max-width:900px .section overrides below keep winning over them,
+   exactly as in the original single stylesheet. */
+.hero {
+  padding: 0;
+  min-height: 100svh;
+}
+.content {
+  max-width: var(--content);
+}
+.content.narrow {
+  max-width: var(--narrow);
+}
+.content h2 {
+  font-size: var(--fs-h2);
+  line-height: 0.92;
+}
+.content p {
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  line-height: 1.5;
+  color: rgb(221, 211, 195);
+}
+.final {
+  justify-content: center;
+  text-align: center;
+  background: rgb(5, 5, 5);
+  min-height: 110svh;
+}
+@media (max-width: 900px) {
+  .section {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 6rem 1.3rem;
+  }
+  .hero {
+    padding: 0;
+  }
+}
+.section {
+  scroll-snap-align: start;
+  isolation: isolate;
+}
+.section::after {
+  content: "";
+  position: absolute;
+  left: var(--sp-section-x);
+  right: var(--sp-section-x);
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  opacity: 0.65;
+}
+.content h2 {
+  text-wrap: balance;
+}
+.content p {
+  max-width: 68ch;
+}
+@media (max-width: 900px) {
+  .section {
+    padding: 7rem 1.25rem 6rem;
+    min-height: 100svh;
+  }
+  .content h2 {
+    font-size: clamp(3.1rem, 16vw, 5rem);
+  }
+}

@@ -1,0 +1,74 @@
+/* Base: resets, element defaults, shared typography, focus, skip-link, keyframes, reduced motion. */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:
+    radial-gradient(circle at top,rgba(var(--gold-rgb),.06),transparent 30rem),
+    var(--bg);
+  overflow-x:hidden;
+}
+body.no-scroll{overflow:hidden}
+img{display:block;max-width:100%}
+canvas#stars{position:fixed;inset:0;z-index:-2;width:100%;height:100%}
+.eyebrow, .topbar, small{
+  text-transform:uppercase;
+  letter-spacing:.2em;
+}
+.gate h1,.hero h1,.content h2{
+  margin:.4rem 0 1rem;
+  font-family:var(--font-display);
+  font-weight:500;
+  letter-spacing:-.03em;
+}
+.locked{visibility:hidden}
+.highlight{
+  font-size:clamp(2rem,4.8vw,3.7rem)!important;
+  line-height:1.1!important;color:rgb(255,255,255)!important;margin-top:1.7rem!important
+}
+blockquote{
+  margin:2.3rem 0 0;
+  font-family:var(--font-display);
+  font-size:clamp(2rem,5vw,4rem);line-height:1.05;
+  color:rgb(255,242,203);font-style:italic
+}
+@keyframes scroll{0%{opacity:0;transform:translate(-50%,0)}45%{opacity:1}100%{opacity:0;transform:translate(-50%,20px)}}
+@keyframes pulse{50%{opacity:.58;transform:scale(.94)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* AURELIA EXPERIENCE V2 — cinematic interaction layer */
+html{scroll-snap-type:y proximity}
+body{
+  background:
+    radial-gradient(circle at var(--mx) var(--my),rgba(var(--gold-rgb),.055),transparent 24rem),
+    radial-gradient(circle at 50% -10%,rgba(255,236,188,.028),transparent 38rem),
+    var(--bg);
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background:linear-gradient(115deg,rgba(255,255,255,.012),transparent 24%,rgba(var(--gold-rgb),.018) 55%,transparent 72%);
+}
+a,button{-webkit-tap-highlight-color:transparent}
+button:focus-visible,a:focus-visible{
+  outline:1px solid var(--gold);outline-offset:5px;box-shadow:0 0 0 8px rgba(var(--gold-rgb),.07)
+}
+.skip-link{
+  position:fixed;z-index:130;top:1rem;left:1rem;transform:translateY(-180%);
+  padding:.75rem 1rem;border-radius:999px;background:var(--gold);color:rgb(9,8,6);text-decoration:none;font:600 .75rem var(--font-body);
+  transition:transform var(--dur-sm) var(--ease-lux)
+}
+.skip-link:focus{transform:none}
+@keyframes gateOrbit{to{transform:translate(-50%,-50%) rotate(374deg)}}
+@keyframes secretUnlocked{0%{transform:scale(1) rotate(0)}40%{transform:scale(1.32) rotate(22deg);text-shadow:0 0 50px rgba(var(--gold-rgb),.9)}100%{transform:scale(1) rotate(0)}}
+@media (pointer:fine){
+  body{cursor:default}
+}
+@media (max-width:900px){
+  html{scroll-snap-type:y proximity}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;scroll-snap-type:none}
+  .hero-media,.ambient-halo,.chapter-nav,.timeline-chip{transition:none!important}
+  .gate::before,.gate::after,.secret-trigger span{animation:none!important}
+}

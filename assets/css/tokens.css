@@ -1,0 +1,49 @@
+:root{
+  --bg:#070706;
+  --bg-soft:#0d0b08;
+  --panel:rgba(255,255,255,.035);
+  --ink:#f3ecdf;
+  --muted:#c8bda8;
+  --gold:#f6ca5b;
+  --gold-deep:#b7852f;
+  --line:rgba(246,202,91,.2);
+  --mx:50vw;
+  --my:40vh;
+  --ease-lux:cubic-bezier(.16,1,.3,1);
+  --safe-x:max(1.25rem, env(safe-area-inset-left));
+}
+
+/* —— extended tokens (new) —— */
+:root {
+  --font-display:"Cormorant Garamond", serif;
+  --font-body: Inter, system-ui, sans-serif;
+
+  --fs-h1-hero: clamp(4rem, 12vw, 8.7rem);
+  --fs-h1-gate: clamp(3.3rem, 10vw, 6.8rem);
+  --fs-h2: clamp(3rem, 8vw, 6rem);
+  --fs-lead: clamp(1.24rem, 2.6vw, 1.72rem);
+  --fs-sub: clamp(1.45rem, 4vw, 2.35rem);
+
+  --sp-section-y: clamp(5rem, 10vw, 9rem);
+  --sp-section-x: clamp(1.25rem, 6vw, 7rem);
+  --sp-gap: clamp(2rem, 5vw, 6rem);
+
+  --content: 760px;
+  --narrow: 670px;
+
+  --z-canvas: 1;
+  --z-chrome: 40;
+  --z-overlay: 60;
+  --z-gate: 80;
+
+  --gold-rgb: 246, 202, 91; /* for rgba(var(--gold-rgb), a) variants */
+}
+/* —— duration tokens (literals repeated 2+ times in the original) —— */
+:root {
+  --dur-xs: .14s;
+  --dur-sm: .25s;
+  --dur-md: .3s;
+  --dur-lg: .45s;
+  --dur-xl: .8s;
+  --dur-2xl: .9s;
+}
