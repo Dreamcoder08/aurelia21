@@ -33,17 +33,29 @@ export function initAmbient() {
   const root = document.documentElement;
   const cursorRing = document.getElementById('cursor-ring');
 
-  addEventListener('pointermove', e => {
-    root.style.setProperty('--mx', e.clientX + 'px');
-    root.style.setProperty('--my', e.clientY + 'px');
-    if (cursorRing && matchMedia('(pointer:fine)').matches) {
-      cursorRing.style.left = e.clientX + 'px';
-      cursorRing.style.top = e.clientY + 'px';
-    }
-  }, { passive: true });
+  // Both listeners drive cursor-following visuals only: --mx/--my position the
+  // body's spotlight gradient, and #cursor-ring is styled solely inside
+  // @media (pointer:fine) (components.css). Guarding at attach time rather
+  // than inside the handler means touch devices do no per-event work at all,
+  // and reduced-motion users don't get the spotlight teleporting around —
+  // the CSS media block can only strip the transition, not stop the updates.
+  const wantsCursorEffects = matchMedia(
+    '(pointer:fine) and (prefers-reduced-motion: no-preference)'
+  ).matches;
 
-  document.addEventListener('pointerover', e => {
-    if (!cursorRing) return;
-    cursorRing.classList.toggle('hot', !!e.target.closest('a,button,.record,.spec-card'));
-  });
+  if (wantsCursorEffects) {
+    addEventListener('pointermove', e => {
+      root.style.setProperty('--mx', e.clientX + 'px');
+      root.style.setProperty('--my', e.clientY + 'px');
+      if (cursorRing) {
+        cursorRing.style.left = e.clientX + 'px';
+        cursorRing.style.top = e.clientY + 'px';
+      }
+    }, { passive: true });
+
+    document.addEventListener('pointerover', e => {
+      if (!cursorRing) return;
+      cursorRing.classList.toggle('hot', !!e.target.closest('a,button,.record,.spec-card'));
+    });
+  }
 }

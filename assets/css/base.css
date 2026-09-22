@@ -65,22 +65,25 @@ button:focus-visible,a:focus-visible{
 .skip-link:focus{transform:none}
 @keyframes gateOrbit{to{transform:translate(-50%,-50%) rotate(374deg)}}
 @keyframes secretUnlocked{0%{transform:scale(1) rotate(0)}40%{transform:scale(1.32) rotate(22deg);text-shadow:0 0 50px rgba(var(--gold-rgb),.9)}100%{transform:scale(1) rotate(0)}}
-@media (pointer:fine){
-  body{cursor:default}
-}
+/* No `@media (pointer:fine){body{cursor:none}}` here on purpose. The gold
+   .cursor-ring is a decorative follower, not a replacement pointer: it lags
+   behind real movement, and ambient.js now skips it entirely for
+   reduced-motion users — hiding the native cursor would leave those users
+   with no pointer at all. The native cursor stays. */
 @media (max-width:900px){
   html{scroll-snap-type:y proximity}
 }
 @media (prefers-reduced-motion:reduce){
+  /* Blanket reset first, then the specific rules that go further than
+     near-zero durations (killing infinite animations outright, disabling
+     scroll-snap). Previously these lived in two separate blocks. */
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
   html{scroll-behavior:auto;scroll-snap-type:none}
   .hero-media,.ambient-halo,.chapter-nav,.timeline-chip{transition:none!important}
   .gate::before,.gate::after,.secret-trigger span{animation:none!important}
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-    scroll-behavior: auto !important;
-  }
 }
