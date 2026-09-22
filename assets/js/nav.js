@@ -62,7 +62,7 @@ export function initNav() {
       navLinks.forEach(link => {
         const active = link.dataset.section === id;
         link.classList.toggle('active', active);
-        if (active) link.setAttribute('aria-current', 'true');
+        if (active) link.setAttribute('aria-current', 'location');
         else link.removeAttribute('aria-current');
       });
       if (timelineLabel) timelineLabel.textContent = sectionNames[id] || 'AURELIA';

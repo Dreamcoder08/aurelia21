@@ -16,7 +16,9 @@ test("chapter nav sets aria-current and updates timeline label", async ({
   }
   // Anchor jumps use html{scroll-behavior:smooth} (base.css), so the ~5000px
   // animated scroll plus JPEG load layout-shifts can exceed 5s: allow 15s.
-  await expect(archivoLink).toHaveAttribute("aria-current", "true", {
+  // "location" is the ARIA APG's more precise token for a table-of-contents
+  // style chapter nav (vs. the generic "true").
+  await expect(archivoLink).toHaveAttribute("aria-current", "location", {
     timeout: 15000,
   });
   await expect(page.locator("#timeline-label")).toHaveText("05 · archive", {

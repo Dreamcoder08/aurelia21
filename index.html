@@ -39,6 +39,11 @@
 
   <!-- AURELIA EXPERIENCE V2 -->
   <a class="skip-link" href="#inicio">Saltar a la historia</a>
+  <!-- No static tabindex="-1" here: gate.js applies/removes it in JS while
+       the gate modal blocks the page, so a no-JS visit (where the gate never
+       renders — see the <noscript> block below) keeps the skip-link
+       reachable, since #inicio is already visible without JS. -->
+
   <div class="experience-progress" aria-hidden="true"><span id="experience-progress-fill"></span></div>
   <div class="ambient-halo" aria-hidden="true"></div>
   <div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
@@ -59,11 +64,11 @@
   <canvas id="stars" aria-hidden="true"></canvas>
   <div class="grain" aria-hidden="true"></div>
 
-  <section class="gate" id="gate">
+  <section class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-heading">
     <div class="gate-inner">
       <div class="gate-mark">✦</div>
       <p class="eyebrow">AURELIA // PRIVATE TRANSMISSION</p>
-      <h1>Para Choko</h1>
+      <h1 id="gate-heading">Para Choko</h1>
       <p class="gate-copy">Hay regalos que se entregan.<br>Este quería descubrirse.</p>
       <button id="enter-button" class="button-primary">Entrar al universo</button>
       <small>21·09 · by Moshi</small>
@@ -71,7 +76,7 @@
   </section>
 
   <main id="site" class="locked">
-    <section class="hero section" id="inicio">
+    <section class="hero section" id="inicio" aria-labelledby="inicio-heading">
       <div class="hero-media">
         <img src="assets/img/aurelia-hero.jpg" width="960" height="1200" decoding="async" alt="Vivian ‘Choko’ reinterpretada como protagonista anime cinematográfica sosteniendo la flor Aurelia"/>
         <div class="hero-overlay"></div>
@@ -84,7 +89,7 @@
 
       <div class="hero-copy reveal">
         <p class="eyebrow">Para Vivian “Choko” · De Moshi</p>
-        <h1>AURELIA <span>// 21·09</span></h1>
+        <h1 id="inicio-heading">AURELIA <span>// 21·09</span></h1>
         <p class="hero-quote">“Entre todas las posibilidades, ocurrió esta: tú.”</p>
         <a href="#flor" class="button-secondary">Descubrir Aurelia</a>
       </div>
@@ -92,10 +97,10 @@
       <div class="scroll-indicator"><span></span></div>
     </section>
 
-    <section class="section narrative" id="flor">
+    <section class="section narrative" id="flor" aria-labelledby="flor-heading">
       <div class="content reveal">
         <p class="eyebrow">01 / LA FLOR</p>
-        <h2>Una flor que no existía.</h2>
+        <h2 id="flor-heading">Una flor que no existía.</h2>
         <p>No quería regalarte una flor amarilla más.</p>
         <p>Así que imaginé una que no pudiera existir en ningún jardín.</p>
         <p>Una flor hecha de <em>luz, memoria y posibilidades.</em></p>
@@ -109,7 +114,7 @@
       </aside>
     </section>
 
-    <section class="section orbit-section" id="universos">
+    <section class="section orbit-section" id="universos" aria-labelledby="universos-heading">
       <div class="orbits" aria-hidden="true">
         <div class="orbit orbit-1"></div>
         <div class="orbit orbit-2"></div>
@@ -119,7 +124,7 @@
 
       <div class="content narrow reveal">
         <p class="eyebrow">02 / ENTRE UNIVERSOS</p>
-        <h2>Esta línea del tiempo.</h2>
+        <h2 id="universos-heading">Esta línea del tiempo.</h2>
         <p>Si el universo hubiera tomado otra decisión, si una conversación hubiera empezado un segundo después, si cualquiera de los dos hubiera elegido otro camino, quizá esta historia no existiría.</p>
         <p>Pero entre millones de versiones posibles, hay una en la que coincidimos.</p>
         <p class="highlight">Esta.</p>
@@ -127,13 +132,13 @@
       </div>
     </section>
 
-    <section class="section split" id="choko">
+    <section class="section split" id="choko" aria-labelledby="choko-heading">
       <div class="image-fragment reveal">
         <img src="assets/img/aurelia-record.jpg" width="960" height="1200" loading="lazy" decoding="async" alt="" aria-hidden="true"/>
       </div>
       <div class="content reveal">
         <p class="eyebrow">03 / CHOKO</p>
-        <h2>Una coordenada.</h2>
+        <h2 id="choko-heading">Una coordenada.</h2>
         <p>Hay personas que llegan a una vida. Y hay personas que cambian la forma en que esa vida se siente.</p>
         <p>Tú tienes algo difícil de explicar: una mezcla de calma, ternura y misterio que hace que incluso los días normales parezcan guardar algo especial.</p>
         <p>Quizá por eso “Choko” dejó de ser solo un nombre.</p>
@@ -141,10 +146,10 @@
       </div>
     </section>
 
-    <section class="section vow" id="moshi-choko">
+    <section class="section vow" id="moshi-choko" aria-labelledby="moshi-choko-heading">
       <div class="content narrow reveal">
         <p class="eyebrow">04 / MOSHI // CHOKO</p>
-        <h2>Algo nuestro.</h2>
+        <h2 id="moshi-choko-heading">Algo nuestro.</h2>
         <p>No quiero prometerte un universo perfecto. Quiero algo más real.</p>
         <p>Estar en los días bonitos. Estar también cuando no tengan música de fondo. Reírnos de cosas absurdas. Guardar pequeños momentos que nadie más entendería. Seguir descubriendo quién eres. Y dejar que tú descubras quién soy yo.</p>
         <p class="highlight">Sin guion. Sin versión idealizada. Solo nosotros.</p>
@@ -156,10 +161,10 @@
       </div>
     </section>
 
-    <section class="section archive" id="archivo">
+    <section class="section archive" id="archivo" aria-labelledby="archivo-heading">
       <div class="content reveal">
         <p class="eyebrow">05 / ARCHIVE // AURELIA</p>
-        <h2>El significado escondido.</h2>
+        <h2 id="archivo-heading">El significado escondido.</h2>
       </div>
 
       <div class="records">
@@ -171,7 +176,7 @@
       </div>
     </section>
 
-    <section class="section secret" id="secreto">
+    <section class="section secret" id="secreto" aria-labelledby="secreto-heading">
       <button class="secret-trigger" id="secret-trigger">
         <span>✦</span>
         <small>Toca la estrella</small>
@@ -179,7 +184,7 @@
 
       <div class="secret-message" id="secret-message">
         <p class="eyebrow">06 / PRIVATE MESSAGE</p>
-        <h2>Si llegaste hasta aquí…</h2>
+        <h2 id="secreto-heading">Si llegaste hasta aquí…</h2>
         <p>Entonces ya entendiste el secreto.</p>
         <p>La flor nunca fue el regalo. La página tampoco. Ni siquiera esta pequeña historia.</p>
         <p>El regalo era intentar construir, con todo lo que sé crear, algo que se pareciera aunque fuera un poco a lo que siento cuando pienso en ti.</p>
@@ -187,7 +192,7 @@
       </div>
     </section>
 
-    <section class="section final" id="final">
+    <section class="section final" id="final" aria-labelledby="final-heading">
 
       <div class="aurelia-bloom" aria-hidden="true">
         <i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i>
@@ -197,7 +202,7 @@
       <div class="final-glow"></div>
       <div class="content narrow reveal">
         <p class="eyebrow">FINAL / FOR ONE UNIVERSE ONLY</p>
-        <h2>Para Vivian “Choko”.</h2>
+        <h2 id="final-heading">Para Vivian “Choko”.</h2>
         <p>No sé cuántas posibilidades tuvo que atravesar el universo para llegar exactamente a esta versión de nosotros.</p>
         <p>Solo sé que ocurrió.</p>
         <p>Y si pudiera guardar una sola línea de esta historia, guardaría esta:</p>
